@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livoirien</title>
+</head>
+<body>
+    <div class="header">
+        <h1>Livoirien</h1>
+    </div>
+
+    <!-- Bande défilante pour les dernières nouvelles -->
+    <div class="news-ticker">
+        <div class="news-content">Dernières nouvelles: Bienvenue sur notre site d'actualités. Des nouvelles fraîches chaque jour !</div>
+    </div>
+
+    <div class="nav">
+        <a href="#home" class="logo">
+            <img src="image/Logo 1.png" alt="Logo" class="logo-image">
+        </a>
+        <a href="#politiques">Politiques</a>
+        <a href="#sport">Sports</a>
+        <a href="#religion">Religion</a>
+        <a href="#defense">Défense</a>
+        <a href="#faits-divers">Faits Divers</a>
+        <a href="#divertissement">Divertissement</a>   
+    </div>
+
+    <div class="content" id="news-sections">
+        <!-- Sections for dynamic news articles -->
+        <div class="box" id="politiques">Politiques</div>
+        <div class="box" id="sports">Sports</div>
+        <div class="box" id="religion">Religion</div>
+        <div class="box" id="defense">Défense</div>
+        <div class="box" id="faits-divers">Faits Divers</div>
+        <div class="box" id="divertissement">Divertissement</div>    
+    </div>
+
+    <div class="footer">
+        <p>Livoirien Site D'actualités. Tous droits Réservés.</p>
+    </div>    
+
+    <!-- Pop-up for alerts -->
+    <div id="alert-popup" class="popup">
+        <span id="alert-text"></span>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Ajouter cette section au fichier HTML existant -->
+<script>
+    async function loadArticles() {
+        const response = await fetch('/api/articles');
+        const articles = await response.json();
+
+        articles.forEach(article => {
+            // Logique pour ajouter chaque article dans la section correspondante
+            const section = document.querySelector(`.box#${article.category.toLowerCase()}`);
+            if (section) {
+                const articleElem = document.createElement('div');
+                articleElem.innerHTML = `<h3>${article.title}</h3><p>${article.content}</p>`;
+                section.appendChild(articleElem);
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", loadArticles);
+</script>
+</body>
+</html>
